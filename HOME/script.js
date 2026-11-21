@@ -31,8 +31,4 @@ renderProperties(properties);
 
 document.addEventListener("click", function (e) {
   const favBtn = e.target.closest(".btn-fav, .heart-btn");
-
-  if (favBtn) {
-    // Favorite button functionality
-  }
 });

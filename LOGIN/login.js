@@ -12,7 +12,7 @@ document.getElementById("login-form").addEventListener("submit", function (e) {
   const rolePages = {
     renter: "../renter.html",
     owner: "../OWNER/owner.html",
-    admin: "../admin.html",
+    admin: "../ADMIN/admin.html",
   };
 
   const safeRedirect =
