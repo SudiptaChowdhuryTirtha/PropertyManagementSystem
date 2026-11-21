@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+  <header class="header">
+    <div class="inner">
+      <p class="tag">ADMIN PANEL</p>
+      <h1>Welcome back, Admin</h1>
+      <p>Manage properties, check visit requests and see your renters.</p>
+    </div>
+  </header>
+
+  <nav class="topnav">
+    <div class="inner">
+      <button id="tab-dashboard" onclick="showSection('dashboard')">Dashboard</button>
+      <button id="tab-properties" onclick="showSection('properties')">Properties</button>
+      <button id="tab-add" onclick="newProperty()">Add Property</button>
+      <button id="tab-appointments" onclick="showSection('appointments')">Appointments</button>
+      <button id="tab-users" onclick="showSection('users')">Users</button>
+      <button class="logout" onclick="logout()">Logout</button>
+    </div>
+  </nav>
+
+  <main class="container">
+
+    <section id="dashboard">
+      <h2>Dashboard</h2>
+      <p class="intro">A quick look at your rental system.</p>
+      <div class="stats">
+        <div class="stat-box purple" onclick="showSection('properties')">
+          <p class="stat-label">Properties</p>
+          <span id="propCount">0</span>
+          <p class="stat-text">Homes listed</p>
+        </div>
+        <div class="stat-box blue" onclick="showSection('appointments'); filterStatus('All')">
+          <p class="stat-label">Appointments</p>
+          <span id="apptCount">0</span>
+          <p class="stat-text">All visit requests</p>
+        </div>
+        <div class="stat-box orange" onclick="showSection('appointments'); filterStatus('Pending')">
+          <p class="stat-label">Pending</p>
+          <span id="pendingCount">0</span>
+          <p class="stat-text">Waiting for you</p>
+        </div>
+        <div class="stat-box green" onclick="showSection('users')">
+          <p class="stat-label">Users</p>
+          <span id="userCount">0</span>
+          <p class="stat-text">Registered accounts</p>
+        </div>
+      </div>
+      <h3 class="sub-title">Latest requests</h3>
+      <table class="data-table">
+        <thead><tr><th>Renter</th><th>Property</th><th>Date</th><th>Status</th></tr></thead>
+        <tbody id="recentBody"></tbody>
+      </table>
+    </section>
+
+    <section id="properties">
+      <h2>All Properties</h2>
+      <p class="intro">Search, edit or delete the homes shown on the website.</p>
+      <div class="filters">
+        <input type="text" id="search" placeholder="Search by name or location" onkeyup="showProperties()">
+        <button onclick="newProperty()">+ Add Property</button>
+      </div>
+      <p id="resultCount" class="hint"></p>
+      <table class="data-table">
+        <thead><tr><th>Image</th><th>Title</th><th>Location</th><th>Type</th><th>Rent</th><th>Actions</th></tr></thead>
+        <tbody id="propBody"></tbody>
+      </table>
+    </section>
+
+    <section id="add">
+      <h2 id="formTitle">Add Property</h2>
+      <p class="intro">Fill in the details. New properties are saved in this browser.</p>
+      <form onsubmit="return saveProperty()">
+        <fieldset>
+          <legend>Property Details</legend>
+          <table class="form-table">
+            <tr><td><label for="title">Title</label></td><td><input type="text" id="title"></td></tr>
+            <tr><td><label for="location">Location</label></td><td><input type="text" id="location" placeholder="Dhanmondi, Dhaka"></td></tr>
+            <tr><td><label for="type">Type</label></td>
+              <td><select id="type">
+                <option value="apartment">Apartment</option>
+                <option value="house">House</option>
+                <option value="studio">Studio</option>
+              </select></td></tr>
+            <tr><td><label for="price">Rent (Tk / month)</label></td><td><input type="number" id="price" min="1"></td></tr>
+            <tr><td><label for="beds">Beds</label></td><td><input type="number" id="beds" min="0"></td></tr>
+            <tr><td><label for="baths">Baths</label></td><td><input type="number" id="baths" min="0"></td></tr>
+            <tr><td><label for="area">Area (sqft)</label></td><td><input type="number" id="area" min="1"></td></tr>
+            <tr><td><label for="image">Image path</label></td><td><input type="text" id="image" placeholder="image/1.jpg"></td></tr>
+            <tr><td><label for="description">Description</label></td><td><textarea id="description" rows="3"></textarea></td></tr>
+            <tr><td><label for="isNew">Mark as New</label></td><td><input type="checkbox" id="isNew" checked></td></tr>
+          </table>
+          <p id="formMsg" class="message"></p>
+          <input type="submit" value="Save Property" class="btn">
+          <input type="button" value="Cancel" class="btn clear" onclick="showSection('properties')">
+        </fieldset>
+      </form>
+    </section>
+
+    <section id="appointments">
+      <h2>Appointments</h2>
+      <p class="intro">Approve or reject the visit requests sent by renters.</p>
+      <div class="filter-buttons">
+        <button id="filter-All" onclick="filterStatus('All')">All</button>
+        <button id="filter-Pending" onclick="filterStatus('Pending')">Pending</button>
+        <button id="filter-Approved" onclick="filterStatus('Approved')">Approved</button>
+        <button id="filter-Rejected" onclick="filterStatus('Rejected')">Rejected</button>
+      </div>
+      <table class="data-table">
+        <thead><tr><th>Renter</th><th>Property</th><th>Date</th><th>Time</th><th>Note</th><th>Status</th><th>Action</th></tr></thead>
+        <tbody id="apptBody"></tbody>
+      </table>
+      <p id="noAppt" class="hint"></p>
+    </section>
+
+    <section id="users">
+      <h2>Users</h2>
+      <p class="intro">Everyone who registered from the registration page.</p>
+      <table class="data-table">
+        <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Role</th><th>Action</th></tr></thead>
+        <tbody id="userBody"></tbody>
+      </table>
+      <p id="noUser" class="hint"></p>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>2026 Rental Management System · Admin Panel</p>
+  </footer>
+
+  <script src="../HOME/property.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>
