@@ -89,6 +89,9 @@ function ownerShowSection(sectionId) {
 }
 
 
+
+
+ 
 function ownerRenderProperties() {
 
     var propertyList = document.getElementById("owner-property-list");
@@ -105,54 +108,49 @@ function ownerRenderProperties() {
 
             var property = ownerProperties[i];
 
-            output += `
-                <div class="owner-property-card">
+            output += "<div class='owner-property-card'>";
 
-                    ${property.image != "" ? `<img src="${property.image}" alt="${property.title}">` : ""}
+            if (property.image != "") {
+                output += "<img src='" + property.image + "' alt='" + property.title + "'>";
+            } else {
+                output += "";
+            }
 
-                    <div class="owner-property-details">
+            output += "<div class='owner-property-details'>";
 
-                        <h3>${property.title}</h3>
+            output += "<h3>" + property.title + "</h3>";
 
-                        <p>Location: ${property.location}</p>
+            output += "<p>Location: " + property.location + "</p>";
 
-                        <p>Type: ${property.type}</p>
+            output += "<p>Type: " + property.type + "</p>";
 
-                        <p>Bedrooms: ${property.beds}</p>
+            output += "<p>Bedrooms: " + property.beds + "</p>";
 
-                        <p>Bathrooms: ${property.baths}</p>
+            output += "<p>Bathrooms: " + property.baths + "</p>";
 
-                        <p>Area: ${property.area} sqft</p>
+            output += "<p>Area: " + property.area + " sqft</p>";
 
-                        <p class="owner-property-price">
-                            Tk ${property.price} / month
-                        </p>
+            output += "<p class='owner-property-price'>Tk " + property.price + " / month</p>";
 
-                        <p>${property.description}</p>
+            output += "<p>" + property.description + "</p>";
 
-                        <div class="owner-property-actions">
+            output += "<div class='owner-property-actions'>";
 
-                            <button class="owner-edit-btn"
-                                onclick="ownerEditProperty(${i})">
-                                Edit
-                            </button>
+            output += "<button class='owner-edit-btn' onclick='ownerEditProperty(" + i + ")'>Edit</button>";
 
-                            <button class="owner-delete-btn"
-                                onclick="ownerDeleteProperty(${i})">
-                                Delete
-                            </button>
+            output += "<button class='owner-delete-btn' onclick='ownerDeleteProperty(" + i + ")'>Delete</button>";
 
-                        </div>
+            output += "</div>";
 
-                    </div>
+            output += "</div>";
 
-                </div>
-            `;
+            output += "</div>";
         }
     }
 
     propertyList.innerHTML = output;
 }
+
 
 
 function ownerEditProperty(index) {
@@ -205,6 +203,7 @@ function ownerDeleteProperty(index) {
 }
 
 
+
 function ownerRenderRecentProperties() {
 
     var recentList = document.getElementById("owner-recent-properties");
@@ -227,23 +226,25 @@ function ownerRenderRecentProperties() {
 
             var property = ownerProperties[i];
 
-            output += `
-                <div class="owner-recent-item">
+            output += "<div class='owner-recent-item'>";
 
-                    <div>
-                        <h3>${property.title}</h3>
-                        <p>${property.location}</p>
-                    </div>
+            output += "<div>";
 
-                    <strong>Tk ${property.price}</strong>
+            output += "<h3>" + property.title + "</h3>";
 
-                </div>
-            `;
+            output += "<p>" + property.location + "</p>";
+
+            output += "</div>";
+
+            output += "<strong>Tk " + property.price + "</strong>";
+
+            output += "</div>";
         }
     }
 
     recentList.innerHTML = output;
 }
+
 
 
 function ownerRenderAppointments() {
@@ -254,13 +255,9 @@ function ownerRenderAppointments() {
 
     if (ownerAppointments.length == 0) {
 
-        output = `
-            <tr>
-                <td colspan="7">
-                    No appointment requests available.
-                </td>
-            </tr>
-        `;
+        output = "<tr>";
+        output += "<td colspan='7'>No appointment requests available.</td>";
+        output += "</tr>";
 
     } else {
 
@@ -285,47 +282,44 @@ function ownerRenderAppointments() {
                     status = "Pending";
                 }
 
-                output += `
-                    <tr>
+                output += "<tr>";
 
-                        <td>${appointment.renterName}</td>
+                output += "<td>" + appointment.renterName + "</td>";
 
-                        <td>${appointment.property}</td>
+                output += "<td>" + appointment.property + "</td>";
 
-                        <td>${appointment.date}</td>
+                output += "<td>" + appointment.date + "</td>";
 
-                        <td>${appointment.time}</td>
+                output += "<td>" + appointment.time + "</td>";
 
-                        <td>${appointment.note}</td>
+                output += "<td>" + appointment.note + "</td>";
 
-                        <td>${status}</td>
+                output += "<td>" + status + "</td>";
 
-                        <td>
-                            ${
-                                status == "Pending"
-                                ?
-                                `
-                                    <button onclick="ownerApproveAppointment(${i})">
-                                        Approve
-                                    </button>
+                output += "<td>";
 
-                                    <button onclick="ownerRejectAppointment(${i})">
-                                        Reject
-                                    </button>
-                                `
-                                :
-                                "No action"
-                            }
-                        </td>
+                if (status == "Pending") {
 
-                    </tr>
-                `;
+                    output += "<button onclick='ownerApproveAppointment(" + i + ")'>Approve</button>";
+
+                    output += "<button onclick='ownerRejectAppointment(" + i + ")'>Reject</button>";
+
+                } else {
+
+                    output += "No action";
+
+                }
+
+                output += "</td>";
+
+                output += "</tr>";
             }
         }
     }
 
     appointmentBody.innerHTML = output;
 }
+
 
 
 function ownerApproveAppointment(index) {
