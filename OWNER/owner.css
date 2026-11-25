@@ -1,637 +1,421 @@
-
-/* ==========================================
-   OWNER MODULE - GLOBAL STYLING
-========================================== */
-
-.owner-page {
+* {
     margin: 0;
     padding: 0;
-    min-height: 100vh;
-    font-family: Arial, sans-serif;
-    background-color: #f1f5fb;
-    color: #263449;
-}
-
-.owner-page *,
-.owner-page *::before,
-.owner-page *::after {
     box-sizing: border-box;
 }
 
-.owner-page button,
-.owner-page input,
-.owner-page select,
-.owner-page textarea {
-    font-family: inherit;
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f1f5fb;
+    color: #333;
 }
 
-.owner-page button {
-    cursor: pointer;
-}
-
-.owner-page a {
+a {
     text-decoration: none;
 }
 
-
-/* ==========================================
-   OWNER SIDEBAR
-========================================== */
-
-.owner-page .owner-sidebar {
+.owner-sidebar {
     width: 250px;
     height: 100vh;
+    background-color: #1e293b;
+    color: white;
     position: fixed;
-    top: 0;
     left: 0;
-    background-color: #0a2a63;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    padding: 25px 18px;
-    z-index: 100;
+    top: 0;
+    padding: 20px;
 }
 
-.owner-page .owner-brand {
-    padding: 5px 12px 35px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+.owner-brand {
+    margin-bottom: 40px;
 }
 
-.owner-page .owner-brand h2 {
+.owner-brand h2 {
     font-size: 24px;
-    margin: 0 0 7px;
+    margin-bottom: 8px;
 }
 
-.owner-page .owner-brand p {
-    color: #b9c9e5;
-    font-size: 13px;
-    margin: 0;
-}
-
-
-/* Sidebar Navigation */
-
-.owner-page .owner-navigation {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 30px;
-}
-
-.owner-page .owner-nav-link {
-    width: 100%;
-    border: none;
-    border-radius: 8px;
-    padding: 14px 13px;
-    text-align: left;
+.owner-brand p {
+    color: #cbd5e1;
     font-size: 14px;
-    color: #dce6f7;
-    background: transparent;
-    transition: 0.3s;
 }
 
-.owner-page .owner-nav-link span {
-    margin-right: 10px;
-}
-
-.owner-page .owner-nav-link:hover,
-.owner-page .owner-nav-link.owner-active {
-    background-color: #17478e;
-    color: white;
-}
-
-
-/* Logout */
-
-.owner-page .owner-sidebar-bottom {
-    margin-top: auto;
-}
-
-.owner-page .owner-logout {
+.owner-navigation {
     display: block;
-    color: #ffdada;
-    padding: 13px;
-    border-radius: 8px;
-    font-size: 14px;
-    transition: 0.3s;
 }
 
-.owner-page .owner-logout:hover {
-    background-color: #17478e;
+.owner-nav-link {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 10px;
+    background-color: transparent;
+    color: white;
+    border: none;
+    text-align: left;
+    font-size: 15px;
+    border-radius: 6px;
 }
 
+.owner-nav-link:hover {
+    background-color: #334155;
+}
 
-/* ==========================================
-   OWNER MAIN CONTENT
-========================================== */
+.owner-nav-link.owner-active {
+    background-color: #2563eb;
+}
 
-.owner-page .owner-main {
+.owner-sidebar-bottom {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    width: 210px;
+}
+
+.owner-logout {
+    display: block;
+    padding: 14px;
+    color: white;
+    background-color: #334155;
+    border-radius: 6px;
+}
+
+.owner-main {
     margin-left: 250px;
     padding: 30px;
-    min-height: 100vh;
 }
 
-
-/* ==========================================
-   OWNER NAVBAR
-========================================== */
-
-.owner-page .owner-navbar {
+.owner-navbar {
     background-color: white;
-    padding: 20px 25px;
-    border-radius: 12px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.04);
+    padding: 20px;
+    border-radius: 8px;
     margin-bottom: 30px;
+    min-height: 90px;
 }
 
-.owner-page .owner-navbar h1 {
-    margin: 0 0 7px;
-    font-size: 24px;
-    color: #0a2a63;
+.owner-navbar h1 {
+    font-size: 25px;
+    margin-bottom: 8px;
 }
 
-.owner-page .owner-navbar p {
-    margin: 0;
-    color: #78869b;
-    font-size: 13px;
-}
-
-
-/* Owner Profile */
-
-.owner-page .owner-profile {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.owner-page .owner-avatar {
-    width: 43px;
-    height: 43px;
-    background-color: #dce9ff;
-    color: #0a2a63;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    font-size: 18px;
-}
-
-.owner-page .owner-profile h3 {
-    margin: 0 0 5px;
+.owner-navbar p {
+    color: gray;
     font-size: 14px;
 }
 
-.owner-page .owner-profile p {
-    margin: 0;
-    font-size: 12px;
+.owner-profile {
+    float: right;
+    margin-top: -45px;
 }
 
+.owner-profile h3 {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
 
-/* ==========================================
-   OWNER SECTION
-========================================== */
+.owner-profile p {
+    color: gray;
+    font-size: 13px;
+}
 
-.owner-page .owner-section {
+.owner-section {
     display: none;
 }
 
-.owner-page .owner-section.owner-section-active {
+.owner-section-active {
     display: block;
 }
 
-.owner-page .owner-section-heading {
+.owner-section-heading {
     margin-bottom: 25px;
 }
 
-.owner-page .owner-section-heading h2 {
+.owner-section-heading h2 {
     font-size: 23px;
-    color: #0a2a63;
-    margin: 0 0 8px;
+    margin-bottom: 8px;
 }
 
-.owner-page .owner-section-heading p {
-    color: #7b8798;
+.owner-section-heading p {
+    color: gray;
     font-size: 14px;
-    margin: 0;
 }
 
-
-/* ==========================================
-   OWNER STATISTICS CARDS
-========================================== */
-
-.owner-page .owner-stats-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 18px;
+.owner-stats-grid {
     margin-bottom: 30px;
 }
 
-.owner-page .owner-stat-card {
+.owner-stat-card {
+    display: inline-block;
+    vertical-align: top;
+    width: 30%;
     background-color: white;
-    padding: 23px 18px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.04);
+    padding: 25px;
+    margin-right: 2%;
+    border-radius: 8px;
 }
 
-.owner-page .owner-stat-icon {
-    width: 48px;
-    height: 48px;
-    background-color: #eaf1ff;
-    color: #17478e;
-    border-radius: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 22px;
-    flex-shrink: 0;
+.owner-stat-icon {
+    display: inline-block;
+    background-color: #dbeafe;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 25px;
+    vertical-align: middle;
+    margin-right: 10px;
 }
 
-.owner-page .owner-stat-card p {
-    margin: 0 0 8px;
-    font-size: 12px;
-    color: #7b8798;
+.owner-stat-card p {
+    color: gray;
+    margin-bottom: 8px;
 }
 
-.owner-page .owner-stat-card h2 {
-    margin: 0;
-    color: #0a2a63;
+.owner-stat-card h2 {
     font-size: 25px;
 }
 
-
-/* ==========================================
-   OWNER CONTENT CARD
-========================================== */
-
-.owner-page .owner-content-card {
+.owner-content-card {
     background-color: white;
     padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.04);
+    border-radius: 8px;
     margin-bottom: 25px;
-}
-
-.owner-page .owner-card-heading {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 22px;
-}
-
-.owner-page .owner-card-heading h2 {
-    margin: 0;
-    font-size: 18px;
-    color: #0a2a63;
-}
-
-
-/* ==========================================
-   OWNER BUTTONS
-========================================== */
-
-.owner-page .owner-primary-btn,
-.owner-page .owner-secondary-btn {
-    border: none;
-    border-radius: 7px;
-    padding: 12px 18px;
-    font-size: 13px;
-    font-weight: bold;
-    transition: 0.3s;
-}
-
-.owner-page .owner-primary-btn {
-    background-color: #0a2a63;
-    color: white;
-}
-
-.owner-page .owner-primary-btn:hover {
-    background-color: #17478e;
-}
-
-.owner-page .owner-secondary-btn {
-    background-color: #e8edf5;
-    color: #34445c;
-}
-
-.owner-page .owner-secondary-btn:hover {
-    background-color: #d9e2ef;
-}
-
-
-/* ==========================================
-   OWNER PROPERTY FORM
-========================================== */
-
-.owner-page .owner-form-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 22px;
-}
-
-.owner-page .owner-form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 9px;
-}
-
-.owner-page .owner-form-group label {
-    font-size: 13px;
-    font-weight: bold;
-    color: #34445c;
-}
-
-.owner-page .owner-form-group input,
-.owner-page .owner-form-group select,
-.owner-page .owner-form-group textarea {
-    width: 100%;
-    border: 1px solid #dce3ed;
-    border-radius: 7px;
-    padding: 13px;
-    font-size: 13px;
-    color: #263449;
-    background-color: white;
-    outline: none;
-    transition: 0.3s;
-}
-
-.owner-page .owner-form-group input:focus,
-.owner-page .owner-form-group select:focus,
-.owner-page .owner-form-group textarea:focus {
-    border-color: #17478e;
-    box-shadow: 0 0 0 3px rgba(23, 71, 142, 0.08);
-}
-
-.owner-page .owner-form-group textarea {
-    resize: vertical;
-}
-
-.owner-page .owner-full-width {
-    grid-column: 1 / -1;
-}
-
-.owner-page .owner-form-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 12px;
-    margin-top: 25px;
-}
-
-
-/* ==========================================
-   OWNER PROPERTY LIST
-========================================== */
-
-.owner-page .owner-property-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 22px;
-}
-
-.owner-page .owner-property-card {
-    background-color: white;
-    border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.06);
-    border: 1px solid #e8edf5;
 }
 
-.owner-page .owner-property-card img {
-    width: 100%;
-    height: 190px;
-    object-fit: cover;
+.owner-card-heading {
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.owner-card-heading h2 {
+    font-size: 19px;
+    display: inline-block;
+}
+
+.owner-card-heading button {
+    float: right;
+}
+
+.owner-primary-btn {
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.owner-primary-btn:hover {
+    background-color: #1d4ed8;
+}
+
+.owner-secondary-btn {
+    background-color: #e2e8f0;
+    color: #333;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.owner-form-grid {
     display: block;
 }
 
-.owner-page .owner-property-details {
-    padding: 18px;
+.owner-form-group {
+    display: inline-block;
+    vertical-align: top;
+    width: 48%;
+    margin-bottom: 20px;
 }
 
-.owner-page .owner-property-details h3 {
-    color: #0a2a63;
-    font-size: 17px;
-    margin: 0 0 9px;
-}
-
-.owner-page .owner-property-details p {
-    color: #78869b;
-    font-size: 13px;
-    margin: 7px 0;
-}
-
-.owner-page .owner-property-price {
-    font-size: 19px;
+.owner-form-group label {
+    display: block;
+    font-size: 14px;
     font-weight: bold;
-    color: #17478e;
-    margin: 12px 0;
+    margin-bottom: 8px;
 }
 
-.owner-page .owner-property-actions {
-    display: flex;
-    gap: 10px;
+.owner-form-group input,
+.owner-form-group select,
+.owner-form-group textarea {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    width: 100%;
+}
+
+.owner-form-group input:focus,
+.owner-form-group select:focus,
+.owner-form-group textarea:focus {
+    outline: none;
+    border-color: #2563eb;
+}
+
+.owner-form-group textarea {
+    resize: vertical;
+}
+
+.owner-full-width {
+    display: block;
+    width: 98%;
+}
+
+.owner-form-actions {
+    text-align: right;
+    margin-top: 25px;
+}
+
+.owner-form-actions button {
+    margin-left: 10px;
+}
+
+.owner-recent-list {
+    display: block;
+}
+
+.owner-recent-item {
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+
+.owner-recent-item h3 {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.owner-recent-item p {
+    color: gray;
+    font-size: 13px;
+}
+
+.owner-recent-item strong {
+    color: #2563eb;
+    float: right;
+}
+
+.owner-property-grid {
+    display: block;
+}
+
+.owner-property-card {
+    display: inline-block;
+    vertical-align: top;
+    width: 48%;
+    margin: 0 1% 20px 0;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #ddd;
+}
+
+.owner-property-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.owner-property-details {
+    padding: 20px;
+}
+
+.owner-property-details h3 {
+    font-size: 19px;
+    margin-bottom: 12px;
+}
+
+.owner-property-details p {
+    font-size: 14px;
+    color: gray;
+    margin-bottom: 10px;
+}
+
+.owner-property-price {
+    color: #2563eb;
+    font-size: 18px;
+    font-weight: bold;
+    margin: 15px 0;
+}
+
+.owner-property-actions {
     margin-top: 15px;
 }
 
-.owner-page .owner-edit-btn,
-.owner-page .owner-delete-btn {
-    border: none;
-    padding: 9px 15px;
-    border-radius: 6px;
-    font-size: 12px;
-    font-weight: bold;
-}
-
-.owner-page .owner-edit-btn {
-    background-color: #e5efff;
-    color: #17478e;
-}
-
-.owner-page .owner-delete-btn {
-    background-color: #ffe8e8;
-    color: #c03939;
-}
-
-
-/* ==========================================
-   OWNER RECENT PROPERTY LIST
-========================================== */
-
-.owner-page .owner-recent-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.owner-page .owner-recent-item {
-    padding: 15px;
-    border: 1px solid #e8edf5;
-    border-radius: 8px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-}
-
-.owner-page .owner-recent-item h3 {
-    margin: 0 0 6px;
-    font-size: 14px;
-    color: #0a2a63;
-}
-
-.owner-page .owner-recent-item p {
-    margin: 0;
-    color: #78869b;
-    font-size: 12px;
-}
-
-
-/* ==========================================
-   OWNER APPOINTMENT TABLE
-========================================== */
-
-.owner-page .owner-table-wrapper {
-    width: 100%;
-    overflow-x: auto;
-}
-
-.owner-page .owner-appointment-table {
-    width: 100%;
-    min-width: 750px;
-    border-collapse: collapse;
-    text-align: left;
-}
-
-.owner-page .owner-appointment-table th {
-    background-color: #f1f5fb;
-    color: #34445c;
-    font-size: 12px;
-    padding: 15px 12px;
-}
-
-.owner-page .owner-appointment-table td {
-    padding: 15px 12px;
-    border-bottom: 1px solid #e8edf5;
-    color: #526177;
-    font-size: 12px;
-}
-
-.owner-page .owner-appointment-table tr:last-child td {
-    border-bottom: none;
-}
-
-.owner-page .owner-appointment-table button {
+.owner-edit-btn,
+.owner-delete-btn {
+    width: 48%;
+    padding: 10px;
     border: none;
     border-radius: 5px;
-    padding: 7px 10px;
-    margin: 3px;
-    font-size: 11px;
-    font-weight: bold;
+    cursor: pointer;
 }
 
-.owner-page .owner-approve-btn {
-    background-color: #e2f7e9;
-    color: #168044;
+.owner-edit-btn {
+    background-color: #dbeafe;
+    color: #1d4ed8;
 }
 
-.owner-page .owner-reject-btn {
-    background-color: #ffe8e8;
-    color: #c03939;
+.owner-delete-btn {
+    background-color: #fee2e2;
+    color: #dc2626;
 }
 
-
-/* ==========================================
-   OWNER EMPTY MESSAGE
-========================================== */
-
-.owner-page .owner-empty-message {
-    color: #8a96a8;
-    font-size: 13px;
-    padding: 20px;
+.owner-empty-message {
     text-align: center;
+    color: gray;
+    padding: 20px;
 }
 
+@media screen and (max-width: 768px) {
 
-/* ==========================================
-   OWNER RESPONSIVE DESIGN
-========================================== */
-
-@media (max-width: 1100px) {
-
-    .owner-page .owner-stats-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-}
-
-@media (max-width: 800px) {
-
-    .owner-page .owner-sidebar {
-        width: 190px;
-        padding: 20px 12px;
-    }
-
-    .owner-page .owner-main {
-        margin-left: 190px;
-        padding: 20px;
-    }
-
-    .owner-page .owner-property-grid {
-        grid-template-columns: 1fr;
-    }
-
-}
-
-@media (max-width: 600px) {
-
-    .owner-page .owner-sidebar {
+    .owner-sidebar {
         width: 100%;
         height: auto;
         position: relative;
     }
 
-    .owner-page .owner-navigation {
-        margin-top: 15px;
+    .owner-sidebar-bottom {
+        position: static;
+        width: 100%;
+        margin-top: 20px;
     }
 
-    .owner-page .owner-sidebar-bottom {
-        margin-top: 15px;
-    }
-
-    .owner-page .owner-main {
+    .owner-main {
         margin-left: 0;
         padding: 15px;
     }
 
-    .owner-page .owner-navbar {
-        flex-direction: column;
-        align-items: flex-start;
+    .owner-profile {
+        float: none;
+        margin-top: 15px;
     }
 
-    .owner-page .owner-stats-grid {
-        grid-template-columns: 1fr;
+    .owner-stat-card {
+        display: block;
+        width: 100%;
+        margin-bottom: 15px;
     }
 
-    .owner-page .owner-form-grid {
-        grid-template-columns: 1fr;
+    .owner-property-card {
+        display: block;
+        width: 100%;
     }
 
-    .owner-page .owner-full-width {
-        grid-column: auto;
+    .owner-form-group {
+        display: block;
+        width: 100%;
     }
 
-    .owner-page .owner-card-heading {
-        flex-direction: column;
-        align-items: flex-start;
+    .owner-full-width {
+        width: 100%;
+    }
+
+    .owner-navbar {
+        min-height: auto;
     }
 
 }

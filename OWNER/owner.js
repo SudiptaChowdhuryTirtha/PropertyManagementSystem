@@ -1,832 +1,426 @@
+var ownerName = "Owner";
 
-// ==========================================
-// OWNER MODULE - JAVASCRIPT
-// ==========================================
+var loggedInUser = JSON.parse(localStorage.getItem("user"));
 
+if (loggedInUser != null) {
 
-// ==========================================
-// 1. GET LOGGED-IN OWNER INFORMATION
-// ==========================================
-
-let ownerCurrentUser = null;
-
-try {
-    ownerCurrentUser = JSON.parse(localStorage.getItem("user"));
-} catch (error) {
-    ownerCurrentUser = null;
-}
-
-
-// Check whether user is logged in as Owner
-
-if (
-    !ownerCurrentUser ||
-    !ownerCurrentUser.role ||
-    ownerCurrentUser.role.toLowerCase() !== "owner"
-) {
-    alert("Please login as an Owner first.");
-    window.location.href = "../LOGIN/login.html";
-}
-
-
-// Display owner's name
-
-if (ownerCurrentUser) {
-    document.getElementById("owner-user-name").textContent =
-        ownerCurrentUser.name || "Owner";
-
-    document.querySelector(".owner-avatar").textContent =
-        (ownerCurrentUser.name || "O").charAt(0).toUpperCase();
-}
-
-
-// ==========================================
-// 2. OWNER PROPERTY DATA
-// ==========================================
-
-// Separate localStorage key for Owner properties
-
-let ownerProperties = [];
-
-try {
-    ownerProperties = JSON.parse(
-        localStorage.getItem("ownerProperties")
-    ) || [];
-} catch (error) {
-    ownerProperties = [];
-}
-
-
-// Save Owner properties
-
-function ownerSaveProperties() {
-    localStorage.setItem(
-        "ownerProperties",
-        JSON.stringify(ownerProperties)
-    );
-}
-
-
-// Get only the logged-in owner's properties
-
-function ownerGetMyProperties() {
-    if (!ownerCurrentUser) {
-        return [];
+    if (loggedInUser.username != undefined) {
+        ownerName = loggedInUser.username;
     }
+    else if (loggedInUser.name != undefined) {
+        ownerName = loggedInUser.name;
+    }
+}
 
-    return ownerProperties.filter(function (property) {
-        return property.ownerName === ownerCurrentUser.name;
-    });
+document.getElementById("owner-user-name").innerHTML = ownerName;
+
+
+var editingCard = null;
+
+
+function ownerShowSection(sectionId) {
+
+    document.getElementById("owner-dashboard").style.display = "none";
+
+    document.getElementById("owner-my-properties").style.display = "none";
+
+    document.getElementById("owner-add-property").style.display = "none";
+
+    document.getElementById(sectionId).style.display = "block";
 }
 
 
-// Escape HTML before displaying user-provided text
+function ownerCreatePropertyCard(title, location, type, price, beds, baths, area, image, description) {
 
-function ownerEscapeHTML(value) {
-    return String(value ?? "").replace(/[&<>"']/g, function (character) {
-        const entities = {
-            "&": "&amp;",
-            "<": "&lt;",
-            ">": "&gt;",
-            '"': "&quot;",
-            "'": "&#39;"
-        };
+    var card = document.createElement("div");
 
-        return entities[character];
-    });
-}
+    card.className = "owner-property-card";
 
 
-// ==========================================
-// 3. SHOW DIFFERENT DASHBOARD SECTIONS
-// ==========================================
+    card.dataset.title = title;
 
-window.ownerShowSection = function (sectionId) {
+    card.dataset.location = location;
 
-    const sections = document.querySelectorAll(".owner-section");
+    card.dataset.type = type;
 
-    sections.forEach(function (section) {
-        section.classList.remove("owner-section-active");
-    });
+    card.dataset.price = price;
 
-    const selectedSection = document.getElementById(sectionId);
+    card.dataset.beds = beds;
 
-    if (selectedSection) {
-        selectedSection.classList.add("owner-section-active");
-    }
+    card.dataset.baths = baths;
 
-    // Update active navigation button
+    card.dataset.area = area;
 
-    const navButtons = document.querySelectorAll(".owner-nav-link");
+    card.dataset.image = image;
 
-    navButtons.forEach(function (button) {
-        button.classList.remove("owner-active");
-    });
-
-    const activeButton = document.querySelector(
-        `.owner-nav-link[onclick*="${sectionId}"]`
-    );
-
-    if (activeButton) {
-        activeButton.classList.add("owner-active");
-    }
-
-};
+    card.dataset.description = description;
 
 
-// ==========================================
-// 4. ADD PROPERTY
-// ==========================================
+    if (image != "") {
 
-const ownerPropertyForm = document.getElementById(
-    "owner-property-form"
-);
+        var propertyImage = document.createElement("img");
 
-let ownerEditingPropertyId = null;
+        propertyImage.src = image;
 
+        propertyImage.alt = title;
 
-ownerPropertyForm.addEventListener("submit", function (event) {
-
-    event.preventDefault();
-
-    if (!ownerCurrentUser) {
-        return;
-    }
-
-    // Get values from form
-
-    const title = document.getElementById(
-        "owner-property-title"
-    ).value.trim();
-
-    const location = document.getElementById(
-        "owner-property-location"
-    ).value.trim();
-
-    const type = document.getElementById(
-        "owner-property-type"
-    ).value;
-
-    const price = Number(document.getElementById(
-        "owner-property-price"
-    ).value);
-
-    const beds = Number(document.getElementById(
-        "owner-property-beds"
-    ).value);
-
-    const baths = Number(document.getElementById(
-        "owner-property-baths"
-    ).value);
-
-    const area = Number(document.getElementById(
-        "owner-property-area"
-    ).value);
-
-    const image = document.getElementById(
-        "owner-property-image"
-    ).value.trim();
-
-    const description = document.getElementById(
-        "owner-property-description"
-    ).value.trim();
-
-
-    // Validate property information
-
-    if (
-        !title ||
-        !location ||
-        !type ||
-        price <= 0 ||
-        beds < 0 ||
-        baths < 0 ||
-        area <= 0
-    ) {
-        alert("Please enter valid property information.");
-        return;
+        card.appendChild(propertyImage);
     }
 
 
-    // Create property object
+    var details = document.createElement("div");
 
-    const propertyData = {
-        title: title,
-        location: location,
-        type: type,
-        price: price,
-        beds: beds,
-        baths: baths,
-        area: area,
-        image: image,
-        description: description,
-        ownerName: ownerCurrentUser.name
+    details.className = "owner-property-details";
+
+
+    var propertyTitle = document.createElement("h3");
+
+    propertyTitle.textContent = title;
+
+
+    var propertyLocation = document.createElement("p");
+
+    propertyLocation.textContent = "Location: " + location;
+
+
+    var propertyType = document.createElement("p");
+
+    propertyType.textContent = "Type: " + type;
+
+
+    var propertyBeds = document.createElement("p");
+
+    propertyBeds.textContent = "Bedrooms: " + beds;
+
+
+    var propertyBaths = document.createElement("p");
+
+    propertyBaths.textContent = "Bathrooms: " + baths;
+
+
+    var propertyArea = document.createElement("p");
+
+    propertyArea.textContent = "Area: " + area + " sqft";
+
+
+    var propertyPrice = document.createElement("p");
+
+    propertyPrice.className = "owner-property-price";
+
+    propertyPrice.textContent = "Tk " + price + " / month";
+
+
+    var propertyDescription = document.createElement("p");
+
+    propertyDescription.textContent = description;
+
+
+    var actions = document.createElement("div");
+
+    actions.className = "owner-property-actions";
+
+
+    var editButton = document.createElement("button");
+
+    editButton.className = "owner-edit-btn";
+
+    editButton.textContent = "Edit";
+
+
+    editButton.onclick = function () {
+
+        ownerEditProperty(card);
+
     };
 
 
-    // EDIT EXISTING PROPERTY
+    var deleteButton = document.createElement("button");
 
-    if (ownerEditingPropertyId !== null) {
+    deleteButton.className = "owner-delete-btn";
 
-        const propertyIndex = ownerProperties.findIndex(
-            function (property) {
-                return property.id === ownerEditingPropertyId &&
-                    property.ownerName === ownerCurrentUser.name;
-            }
-        );
+    deleteButton.textContent = "Delete";
 
-        if (propertyIndex === -1) {
-            alert("Property not found.");
-            return;
-        }
 
-        ownerProperties[propertyIndex] = {
-            ...ownerProperties[propertyIndex],
-            ...propertyData
-        };
+    deleteButton.onclick = function () {
 
-        alert("Property updated successfully.");
+        ownerDeleteProperty(card);
 
-        ownerEditingPropertyId = null;
+    };
 
-        document.getElementById(
-            "owner-submit-btn"
-        ).textContent = "Add Property";
 
+    actions.appendChild(editButton);
+
+    actions.appendChild(deleteButton);
+
+
+    details.appendChild(propertyTitle);
+
+    details.appendChild(propertyLocation);
+
+    details.appendChild(propertyType);
+
+    details.appendChild(propertyBeds);
+
+    details.appendChild(propertyBaths);
+
+    details.appendChild(propertyArea);
+
+    details.appendChild(propertyPrice);
+
+    details.appendChild(propertyDescription);
+
+    details.appendChild(actions);
+
+
+    card.appendChild(details);
+
+
+    return card;
+}
+
+
+document.getElementById("owner-property-form").onsubmit = function () {
+
+
+    var title = document.getElementById("owner-property-title").value;
+
+    var location = document.getElementById("owner-property-location").value;
+
+    var type = document.getElementById("owner-property-type").value;
+
+    var price = document.getElementById("owner-property-price").value * 1;
+
+    var beds = document.getElementById("owner-property-beds").value * 1;
+
+    var baths = document.getElementById("owner-property-baths").value * 1;
+
+    var area = document.getElementById("owner-property-area").value * 1;
+
+    var image = document.getElementById("owner-property-image").value;
+
+    var description = document.getElementById("owner-property-description").value;
+
+
+    if (title == "" || location == "" || type == "" ||
+        price <= 0 || beds < 0 || baths < 0 || area <= 0) {
+
+        alert("Please enter valid property information.");
+
+        return false;
     }
 
-    // ADD NEW PROPERTY
 
-    else {
+    var newCard = ownerCreatePropertyCard(
+        title,
+        location,
+        type,
+        price,
+        beds,
+        baths,
+        area,
+        image,
+        description
+    );
 
-        propertyData.id = Date.now();
 
-        ownerProperties.push(propertyData);
+    var propertyList = document.getElementById("owner-property-list");
+
+
+    if (editingCard == null) {
+
+        var existingCards = propertyList.getElementsByClassName("owner-property-card");
+
+        if (existingCards.length == 0) {
+
+            propertyList.innerHTML = "";
+        }
+
+        propertyList.appendChild(newCard);
 
         alert("Property added successfully.");
 
     }
 
+    else {
 
-    // Save and refresh dashboard
+        propertyList.removeChild(editingCard);
 
-    ownerSaveProperties();
+        propertyList.appendChild(newCard);
 
-    ownerPropertyForm.reset();
+        editingCard = null;
+
+        alert("Property updated successfully.");
+    }
+
+
+    document.getElementById("owner-property-form").reset();
+
+    document.getElementById("owner-submit-btn").innerHTML = "Add Property";
+
 
     ownerUpdateDashboard();
 
+
     ownerShowSection("owner-my-properties");
 
-});
+
+    return false;
+};
 
 
-// ==========================================
-// 5. DISPLAY OWNER PROPERTIES
-// ==========================================
+function ownerEditProperty(card) {
 
-function ownerRenderProperties() {
-
-    const propertyList = document.getElementById(
-        "owner-property-list"
-    );
-
-    const myProperties = ownerGetMyProperties();
-
-    propertyList.innerHTML = "";
+    editingCard = card;
 
 
-    if (myProperties.length === 0) {
+    document.getElementById("owner-property-title").value = card.dataset.title;
 
-        propertyList.innerHTML = `
-            <p class="owner-empty-message">
-                No properties available.
-                Add your first property.
-            </p>
-        `;
+    document.getElementById("owner-property-location").value = card.dataset.location;
 
-        return;
-    }
+    document.getElementById("owner-property-type").value = card.dataset.type;
+
+    document.getElementById("owner-property-price").value = card.dataset.price;
+
+    document.getElementById("owner-property-beds").value = card.dataset.beds;
+
+    document.getElementById("owner-property-baths").value = card.dataset.baths;
+
+    document.getElementById("owner-property-area").value = card.dataset.area;
+
+    document.getElementById("owner-property-image").value = card.dataset.image;
+
+    document.getElementById("owner-property-description").value = card.dataset.description;
 
 
-    myProperties.forEach(function (property) {
+    document.getElementById("owner-submit-btn").innerHTML = "Update Property";
 
-        const propertyCard = document.createElement("div");
 
-        propertyCard.className = "owner-property-card";
-
-        propertyCard.innerHTML = `
-
-            ${
-                property.image
-                    ? `<img src="${ownerEscapeHTML(property.image)}"
-                        alt="${ownerEscapeHTML(property.title)}">`
-                    : ""
-            }
-
-            <div class="owner-property-details">
-
-                <h3>${ownerEscapeHTML(property.title)}</h3>
-
-                <p>📍 ${ownerEscapeHTML(property.location)}</p>
-
-                <p>Type: ${ownerEscapeHTML(property.type)}</p>
-
-                <p>🛏 ${property.beds} Bedrooms |
-                   🛁 ${property.baths} Bathrooms</p>
-
-                <p>📐 ${property.area} sqft</p>
-
-                <div class="owner-property-price">
-                    Tk ${Number(property.price).toLocaleString("en-BD")}
-                    / month
-                </div>
-
-                <p>${ownerEscapeHTML(property.description)}</p>
-
-                <div class="owner-property-actions">
-
-                    <button
-                        class="owner-edit-btn"
-                        data-action="edit"
-                        data-id="${property.id}">
-                        Edit
-                    </button>
-
-                    <button
-                        class="owner-delete-btn"
-                        data-action="delete"
-                        data-id="${property.id}">
-                        Delete
-                    </button>
-
-                </div>
-
-            </div>
-
-        `;
-
-        propertyList.appendChild(propertyCard);
-
-    });
-
+    ownerShowSection("owner-add-property");
 }
 
 
-// ==========================================
-// 6. EDIT AND DELETE PROPERTY
-// ==========================================
+function ownerDeleteProperty(card) {
 
-document.getElementById(
-    "owner-property-list"
-).addEventListener("click", function (event) {
+    var answer = confirm("Are you sure you want to delete this property?");
 
-    const actionButton = event.target.closest(
-        "button[data-action]"
-    );
+    if (answer == true) {
 
-    if (!actionButton) {
-        return;
-    }
+        card.remove();
 
-    const propertyId = Number(actionButton.dataset.id);
+        var propertyList = document.getElementById("owner-property-list");
 
-    const action = actionButton.dataset.action;
+        var cards = propertyList.getElementsByClassName("owner-property-card");
 
+        if (cards.length == 0) {
 
-    // Find property belonging to current owner
-
-    const selectedProperty = ownerProperties.find(
-        function (property) {
-            return property.id === propertyId &&
-                property.ownerName === ownerCurrentUser.name;
-        }
-    );
-
-    if (!selectedProperty) {
-        alert("Property not found.");
-        return;
-    }
-
-
-    // EDIT PROPERTY
-
-    if (action === "edit") {
-
-        ownerEditingPropertyId = propertyId;
-
-        document.getElementById(
-            "owner-property-title"
-        ).value = selectedProperty.title;
-
-        document.getElementById(
-            "owner-property-location"
-        ).value = selectedProperty.location;
-
-        document.getElementById(
-            "owner-property-type"
-        ).value = selectedProperty.type;
-
-        document.getElementById(
-            "owner-property-price"
-        ).value = selectedProperty.price;
-
-        document.getElementById(
-            "owner-property-beds"
-        ).value = selectedProperty.beds;
-
-        document.getElementById(
-            "owner-property-baths"
-        ).value = selectedProperty.baths;
-
-        document.getElementById(
-            "owner-property-area"
-        ).value = selectedProperty.area;
-
-        document.getElementById(
-            "owner-property-image"
-        ).value = selectedProperty.image || "";
-
-        document.getElementById(
-            "owner-property-description"
-        ).value = selectedProperty.description || "";
-
-
-        document.getElementById(
-            "owner-submit-btn"
-        ).textContent = "Update Property";
-
-        ownerShowSection("owner-add-property");
-
-    }
-
-
-    // DELETE PROPERTY
-
-    else if (action === "delete") {
-
-        const confirmation = confirm(
-            "Are you sure you want to delete this property?"
-        );
-
-        if (confirmation) {
-
-            ownerProperties = ownerProperties.filter(
-                function (property) {
-                    return property.id !== propertyId;
-                }
-            );
-
-            ownerSaveProperties();
-
-            ownerUpdateDashboard();
-
-            alert("Property deleted successfully.");
-
+            propertyList.innerHTML = "<p class='owner-empty-message'>No properties added yet.</p>";
         }
 
+        ownerUpdateDashboard();
+
+        alert("Property deleted successfully.");
     }
+}
 
-});
-
-
-// Reset editing mode if form is cleared
-
-ownerPropertyForm.addEventListener("reset", function () {
-
-    ownerEditingPropertyId = null;
-
-    document.getElementById(
-        "owner-submit-btn"
-    ).textContent = "Add Property";
-
-});
-
-
-// ==========================================
-// 7. DISPLAY RECENT PROPERTIES
-// ==========================================
 
 function ownerRenderRecentProperties() {
 
-    const recentList = document.getElementById(
-        "owner-recent-properties"
-    );
+    var recentList = document.getElementById("owner-recent-properties");
 
-    const myProperties = ownerGetMyProperties();
+    var propertyList = document.getElementById("owner-property-list");
+
+    var cards = propertyList.getElementsByClassName("owner-property-card");
+
 
     recentList.innerHTML = "";
 
 
-    if (myProperties.length === 0) {
+    var totalProperties = cards.length;
 
-        recentList.innerHTML = `
-            <p class="owner-empty-message">
-                No properties added yet.
-            </p>
-        `;
 
-        return;
+    if (totalProperties == 0) {
+
+        recentList.innerHTML = "<p>No properties added yet.</p>";
     }
 
+    else {
 
-    const recentProperties = myProperties.slice(-3).reverse();
-
-    recentProperties.forEach(function (property) {
-
-        const recentItem = document.createElement("div");
-
-        recentItem.className = "owner-recent-item";
-
-        recentItem.innerHTML = `
-
-            <div>
-                <h3>${ownerEscapeHTML(property.title)}</h3>
-
-                <p>${ownerEscapeHTML(property.location)}</p>
-            </div>
-
-            <strong>
-                Tk ${Number(property.price).toLocaleString("en-BD")}
-            </strong>
-
-        `;
-
-        recentList.appendChild(recentItem);
-
-    });
-
-}
+        var shownProperties = 0;
 
 
-// ==========================================
-// 8. APPOINTMENT DATA
-// ==========================================
+        for (var i = totalProperties - 1; i >= 0; i--) {
 
-// Read shared appointment data if available.
-// Renter integration will be done separately.
+            if (shownProperties < 3) {
 
-let ownerAppointments = [];
-
-try {
-    ownerAppointments = JSON.parse(
-        localStorage.getItem("appointments")
-    ) || [];
-} catch (error) {
-    ownerAppointments = [];
-}
+                var property = cards[i];
 
 
-// Save appointment data
+                var recentItem = document.createElement("div");
 
-function ownerSaveAppointments() {
-
-    localStorage.setItem(
-        "appointments",
-        JSON.stringify(ownerAppointments)
-    );
-
-}
+                recentItem.className = "owner-recent-item";
 
 
-// ==========================================
-// 9. DISPLAY APPOINTMENTS
-// ==========================================
+                var propertyInfo = document.createElement("div");
 
-function ownerRenderAppointments() {
 
-    const appointmentBody = document.getElementById(
-        "owner-appointment-body"
-    );
+                var propertyTitle = document.createElement("h3");
 
-    const myProperties = ownerGetMyProperties();
+                propertyTitle.textContent = property.dataset.title;
 
-    const myPropertyNames = myProperties.map(
-        function (property) {
-            return property.title;
+
+                var propertyLocation = document.createElement("p");
+
+                propertyLocation.textContent = property.dataset.location;
+
+
+                var propertyPrice = document.createElement("strong");
+
+                propertyPrice.textContent = "Tk " + property.dataset.price;
+
+
+                propertyInfo.appendChild(propertyTitle);
+
+                propertyInfo.appendChild(propertyLocation);
+
+
+                recentItem.appendChild(propertyInfo);
+
+                recentItem.appendChild(propertyPrice);
+
+
+                recentList.appendChild(recentItem);
+
+
+                shownProperties++;
+            }
         }
-    );
-
-
-    // Show only appointments for this owner's properties
-
-    const myAppointments = ownerAppointments.filter(
-        function (appointment) {
-            return myPropertyNames.includes(appointment.property);
-        }
-    );
-
-
-    appointmentBody.innerHTML = "";
-
-
-    if (myAppointments.length === 0) {
-
-        appointmentBody.innerHTML = `
-            <tr>
-                <td colspan="7" class="owner-empty-message">
-                    No appointment requests available.
-                </td>
-            </tr>
-        `;
-
-        return;
     }
-
-
-    myAppointments.forEach(function (appointment) {
-
-        const appointmentRow = document.createElement("tr");
-
-        const appointmentStatus = appointment.status || "Pending";
-
-        appointmentRow.innerHTML = `
-
-            <td>
-                ${ownerEscapeHTML(
-                    appointment.renterName ||
-                    appointment.name ||
-                    "Renter"
-                )}
-            </td>
-
-            <td>${ownerEscapeHTML(appointment.property)}</td>
-
-            <td>${ownerEscapeHTML(appointment.date)}</td>
-
-            <td>${ownerEscapeHTML(appointment.time)}</td>
-
-            <td>${ownerEscapeHTML(appointment.note || "—")}</td>
-
-            <td>${ownerEscapeHTML(appointmentStatus)}</td>
-
-            <td>
-
-                ${
-                    appointmentStatus === "Pending"
-                        ? `
-                            <button
-                                class="owner-approve-btn"
-                                data-action="approve"
-                                data-id="${appointment.id}">
-                                Approve
-                            </button>
-
-                            <button
-                                class="owner-reject-btn"
-                                data-action="reject"
-                                data-id="${appointment.id}">
-                                Reject
-                            </button>
-                        `
-                        : "No action"
-                }
-
-            </td>
-
-        `;
-
-        appointmentBody.appendChild(appointmentRow);
-
-    });
-
 }
 
-
-// ==========================================
-// 10. APPROVE OR REJECT APPOINTMENTS
-// ==========================================
-
-document.getElementById(
-    "owner-appointment-body"
-).addEventListener("click", function (event) {
-
-    const actionButton = event.target.closest(
-        "button[data-action]"
-    );
-
-    if (!actionButton) {
-        return;
-    }
-
-    const appointmentId = Number(actionButton.dataset.id);
-
-    const action = actionButton.dataset.action;
-
-
-    const selectedAppointment = ownerAppointments.find(
-        function (appointment) {
-            return Number(appointment.id) === appointmentId;
-        }
-    );
-
-    if (!selectedAppointment) {
-        alert("Appointment not found.");
-        return;
-    }
-
-
-    if (action === "approve") {
-
-        selectedAppointment.status = "Approved";
-
-        alert("Appointment approved successfully.");
-
-    }
-
-    else if (action === "reject") {
-
-        selectedAppointment.status = "Rejected";
-
-        alert("Appointment rejected.");
-
-    }
-
-
-    ownerSaveAppointments();
-
-    ownerUpdateDashboard();
-
-});
-
-
-// ==========================================
-// 11. UPDATE DASHBOARD STATISTICS
-// ==========================================
 
 function ownerUpdateDashboard() {
 
-    const myProperties = ownerGetMyProperties();
+    var propertyList = document.getElementById("owner-property-list");
 
-    const myPropertyNames = myProperties.map(
-        function (property) {
-            return property.title;
-        }
-    );
-
-    const myAppointments = ownerAppointments.filter(
-        function (appointment) {
-            return myPropertyNames.includes(appointment.property);
-        }
-    );
+    var cards = propertyList.getElementsByClassName("owner-property-card");
 
 
-    // Total properties
-
-    document.getElementById(
-        "owner-total-properties"
-    ).textContent = myProperties.length;
+    var totalProperties = cards.length;
 
 
-    // Total appointments
+    document.getElementById("owner-total-properties").innerHTML = totalProperties;
 
-    document.getElementById(
-        "owner-total-appointments"
-    ).textContent = myAppointments.length;
-
-
-    // Pending appointments
-
-    const pendingCount = myAppointments.filter(
-        function (appointment) {
-            return (appointment.status || "Pending") === "Pending";
-        }
-    ).length;
-
-    document.getElementById(
-        "owner-pending-appointments"
-    ).textContent = pendingCount;
-
-
-    // Approved appointments
-
-    const approvedCount = myAppointments.filter(
-        function (appointment) {
-            return appointment.status === "Approved";
-        }
-    ).length;
-
-    document.getElementById(
-        "owner-approved-appointments"
-    ).textContent = approvedCount;
-
-
-    // Refresh all dashboard sections
-
-    ownerRenderProperties();
 
     ownerRenderRecentProperties();
-
-    ownerRenderAppointments();
-
 }
 
 
-// ==========================================
-// 12. INITIALIZE OWNER DASHBOARD
-// ==========================================
+document.getElementById("owner-property-form").onreset = function () {
+
+    editingCard = null;
+
+    document.getElementById("owner-submit-btn").innerHTML = "Add Property";
+};
+
 
 ownerUpdateDashboard();
-
-console.log("Owner Dashboard loaded successfully.");
-
