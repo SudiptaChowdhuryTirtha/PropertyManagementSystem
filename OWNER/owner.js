@@ -1,78 +1,21 @@
-
 var ownerName = "Owner";
 
-var ownerProperties = [];
+var loggedInUser = JSON.parse(localStorage.getItem("user"));
 
-var ownerAppointments = [];
+if (loggedInUser != null) {
 
-var nextPropertyId = 1;
-
-var editingPropertyIndex = -1;
+    if (loggedInUser.username != undefined) {
+        ownerName = loggedInUser.username;
+    }
+    else if (loggedInUser.name != undefined) {
+        ownerName = loggedInUser.name;
+    }
+}
 
 document.getElementById("owner-user-name").innerHTML = ownerName;
 
-document.getElementById("owner-property-form").onsubmit = function () {
 
-    var title = document.getElementById("owner-property-title").value;
-    var location = document.getElementById("owner-property-location").value;
-    var type = document.getElementById("owner-property-type").value;
-    var price = document.getElementById("owner-property-price").value * 1;
-    var beds = document.getElementById("owner-property-beds").value * 1;
-    var baths = document.getElementById("owner-property-baths").value * 1;
-    var area = document.getElementById("owner-property-area").value * 1;
-    var image = document.getElementById("owner-property-image").value;
-    var description = document.getElementById("owner-property-description").value;
-
-    if (title == "" || location == "" || type == "" ||
-        price <= 0 || beds < 0 || baths < 0 || area <= 0) {
-
-        alert("Please enter valid property information.");
-        return false;
-    }
-
-    var property = {
-        id: nextPropertyId,
-        title: title,
-        location: location,
-        type: type,
-        price: price,
-        beds: beds,
-        baths: baths,
-        area: area,
-        image: image,
-        description: description,
-        ownerName: ownerName
-    };
-
-    if (editingPropertyIndex == -1) {
-
-        ownerProperties.push(property);
-
-        nextPropertyId++;
-
-        alert("Property added successfully.");
-
-    } else {
-
-        property.id = ownerProperties[editingPropertyIndex].id;
-
-        ownerProperties[editingPropertyIndex] = property;
-
-        editingPropertyIndex = -1;
-
-        document.getElementById("owner-submit-btn").innerHTML = "Add Property";
-
-        alert("Property updated successfully.");
-    }
-
-    document.getElementById("owner-property-form").reset();
-
-    ownerUpdateDashboard();
-
-    ownerShowSection("owner-my-properties");
-
-    return false;
-};
+var editingCard = null;
 
 
 function ownerShowSection(sectionId) {
@@ -83,118 +26,295 @@ function ownerShowSection(sectionId) {
 
     document.getElementById("owner-add-property").style.display = "none";
 
-    document.getElementById("owner-appointments").style.display = "none";
-
     document.getElementById(sectionId).style.display = "block";
 }
 
 
+function ownerCreatePropertyCard(title, location, type, price, beds, baths, area, image, description) {
+
+    var card = document.createElement("div");
+
+    card.className = "owner-property-card";
 
 
- 
-function ownerRenderProperties() {
+    card.dataset.title = title;
 
-    var propertyList = document.getElementById("owner-property-list");
+    card.dataset.location = location;
 
-    var output = "";
+    card.dataset.type = type;
 
-    if (ownerProperties.length == 0) {
+    card.dataset.price = price;
 
-        output = "<p>No properties available. Add your first property.</p>";
+    card.dataset.beds = beds;
 
-    } else {
+    card.dataset.baths = baths;
 
-        for (var i = 0; i < ownerProperties.length; i++) {
+    card.dataset.area = area;
 
-            var property = ownerProperties[i];
+    card.dataset.image = image;
 
-            output += "<div class='owner-property-card'>";
+    card.dataset.description = description;
 
-            if (property.image != "") {
-                output += "<img src='" + property.image + "' alt='" + property.title + "'>";
-            } else {
-                output += "";
-            }
 
-            output += "<div class='owner-property-details'>";
+    if (image != "") {
 
-            output += "<h3>" + property.title + "</h3>";
+        var propertyImage = document.createElement("img");
 
-            output += "<p>Location: " + property.location + "</p>";
+        propertyImage.src = image;
 
-            output += "<p>Type: " + property.type + "</p>";
+        propertyImage.alt = title;
 
-            output += "<p>Bedrooms: " + property.beds + "</p>";
-
-            output += "<p>Bathrooms: " + property.baths + "</p>";
-
-            output += "<p>Area: " + property.area + " sqft</p>";
-
-            output += "<p class='owner-property-price'>Tk " + property.price + " / month</p>";
-
-            output += "<p>" + property.description + "</p>";
-
-            output += "<div class='owner-property-actions'>";
-
-            output += "<button class='owner-edit-btn' onclick='ownerEditProperty(" + i + ")'>Edit</button>";
-
-            output += "<button class='owner-delete-btn' onclick='ownerDeleteProperty(" + i + ")'>Delete</button>";
-
-            output += "</div>";
-
-            output += "</div>";
-
-            output += "</div>";
-        }
+        card.appendChild(propertyImage);
     }
 
-    propertyList.innerHTML = output;
+
+    var details = document.createElement("div");
+
+    details.className = "owner-property-details";
+
+
+    var propertyTitle = document.createElement("h3");
+
+    propertyTitle.textContent = title;
+
+
+    var propertyLocation = document.createElement("p");
+
+    propertyLocation.textContent = "Location: " + location;
+
+
+    var propertyType = document.createElement("p");
+
+    propertyType.textContent = "Type: " + type;
+
+
+    var propertyBeds = document.createElement("p");
+
+    propertyBeds.textContent = "Bedrooms: " + beds;
+
+
+    var propertyBaths = document.createElement("p");
+
+    propertyBaths.textContent = "Bathrooms: " + baths;
+
+
+    var propertyArea = document.createElement("p");
+
+    propertyArea.textContent = "Area: " + area + " sqft";
+
+
+    var propertyPrice = document.createElement("p");
+
+    propertyPrice.className = "owner-property-price";
+
+    propertyPrice.textContent = "Tk " + price + " / month";
+
+
+    var propertyDescription = document.createElement("p");
+
+    propertyDescription.textContent = description;
+
+
+    var actions = document.createElement("div");
+
+    actions.className = "owner-property-actions";
+
+
+    var editButton = document.createElement("button");
+
+    editButton.className = "owner-edit-btn";
+
+    editButton.textContent = "Edit";
+
+
+    editButton.onclick = function () {
+
+        ownerEditProperty(card);
+
+    };
+
+
+    var deleteButton = document.createElement("button");
+
+    deleteButton.className = "owner-delete-btn";
+
+    deleteButton.textContent = "Delete";
+
+
+    deleteButton.onclick = function () {
+
+        ownerDeleteProperty(card);
+
+    };
+
+
+    actions.appendChild(editButton);
+
+    actions.appendChild(deleteButton);
+
+
+    details.appendChild(propertyTitle);
+
+    details.appendChild(propertyLocation);
+
+    details.appendChild(propertyType);
+
+    details.appendChild(propertyBeds);
+
+    details.appendChild(propertyBaths);
+
+    details.appendChild(propertyArea);
+
+    details.appendChild(propertyPrice);
+
+    details.appendChild(propertyDescription);
+
+    details.appendChild(actions);
+
+
+    card.appendChild(details);
+
+
+    return card;
 }
 
 
+document.getElementById("owner-property-form").onsubmit = function () {
 
-function ownerEditProperty(index) {
 
-    var property = ownerProperties[index];
+    var title = document.getElementById("owner-property-title").value;
 
-    editingPropertyIndex = index;
+    var location = document.getElementById("owner-property-location").value;
 
-    document.getElementById("owner-property-title").value = property.title;
+    var type = document.getElementById("owner-property-type").value;
 
-    document.getElementById("owner-property-location").value = property.location;
+    var price = document.getElementById("owner-property-price").value * 1;
 
-    document.getElementById("owner-property-type").value = property.type;
+    var beds = document.getElementById("owner-property-beds").value * 1;
 
-    document.getElementById("owner-property-price").value = property.price;
+    var baths = document.getElementById("owner-property-baths").value * 1;
 
-    document.getElementById("owner-property-beds").value = property.beds;
+    var area = document.getElementById("owner-property-area").value * 1;
 
-    document.getElementById("owner-property-baths").value = property.baths;
+    var image = document.getElementById("owner-property-image").value;
 
-    document.getElementById("owner-property-area").value = property.area;
+    var description = document.getElementById("owner-property-description").value;
 
-    document.getElementById("owner-property-image").value = property.image;
 
-    document.getElementById("owner-property-description").value = property.description;
+    if (title == "" || location == "" || type == "" ||
+        price <= 0 || beds < 0 || baths < 0 || area <= 0) {
+
+        alert("Please enter valid property information.");
+
+        return false;
+    }
+
+
+    var newCard = ownerCreatePropertyCard(
+        title,
+        location,
+        type,
+        price,
+        beds,
+        baths,
+        area,
+        image,
+        description
+    );
+
+
+    var propertyList = document.getElementById("owner-property-list");
+
+
+    if (editingCard == null) {
+
+        var existingCards = propertyList.getElementsByClassName("owner-property-card");
+
+        if (existingCards.length == 0) {
+
+            propertyList.innerHTML = "";
+        }
+
+        propertyList.appendChild(newCard);
+
+        alert("Property added successfully.");
+
+    }
+
+    else {
+
+        propertyList.removeChild(editingCard);
+
+        propertyList.appendChild(newCard);
+
+        editingCard = null;
+
+        alert("Property updated successfully.");
+    }
+
+
+    document.getElementById("owner-property-form").reset();
+
+    document.getElementById("owner-submit-btn").innerHTML = "Add Property";
+
+
+    ownerUpdateDashboard();
+
+
+    ownerShowSection("owner-my-properties");
+
+
+    return false;
+};
+
+
+function ownerEditProperty(card) {
+
+    editingCard = card;
+
+
+    document.getElementById("owner-property-title").value = card.dataset.title;
+
+    document.getElementById("owner-property-location").value = card.dataset.location;
+
+    document.getElementById("owner-property-type").value = card.dataset.type;
+
+    document.getElementById("owner-property-price").value = card.dataset.price;
+
+    document.getElementById("owner-property-beds").value = card.dataset.beds;
+
+    document.getElementById("owner-property-baths").value = card.dataset.baths;
+
+    document.getElementById("owner-property-area").value = card.dataset.area;
+
+    document.getElementById("owner-property-image").value = card.dataset.image;
+
+    document.getElementById("owner-property-description").value = card.dataset.description;
+
 
     document.getElementById("owner-submit-btn").innerHTML = "Update Property";
+
 
     ownerShowSection("owner-add-property");
 }
 
 
-function ownerDeleteProperty(index) {
+function ownerDeleteProperty(card) {
 
     var answer = confirm("Are you sure you want to delete this property?");
 
     if (answer == true) {
 
-        for (var i = index; i < ownerProperties.length - 1; i++) {
+        card.remove();
 
-            ownerProperties[i] = ownerProperties[i + 1];
+        var propertyList = document.getElementById("owner-property-list");
+
+        var cards = propertyList.getElementsByClassName("owner-property-card");
+
+        if (cards.length == 0) {
+
+            propertyList.innerHTML = "<p class='owner-empty-message'>No properties added yet.</p>";
         }
-
-        ownerProperties.length = ownerProperties.length - 1;
 
         ownerUpdateDashboard();
 
@@ -203,196 +323,104 @@ function ownerDeleteProperty(index) {
 }
 
 
-
 function ownerRenderRecentProperties() {
 
     var recentList = document.getElementById("owner-recent-properties");
 
-    var output = "";
+    var propertyList = document.getElementById("owner-property-list");
 
-    if (ownerProperties.length == 0) {
+    var cards = propertyList.getElementsByClassName("owner-property-card");
 
-        output = "<p>No properties added yet.</p>";
 
-    } else {
+    recentList.innerHTML = "";
 
-        var start = ownerProperties.length - 3;
 
-        if (start < 0) {
-            start = 0;
-        }
+    var totalProperties = cards.length;
 
-        for (var i = ownerProperties.length - 1; i >= start; i--) {
 
-            var property = ownerProperties[i];
+    if (totalProperties == 0) {
 
-            output += "<div class='owner-recent-item'>";
-
-            output += "<div>";
-
-            output += "<h3>" + property.title + "</h3>";
-
-            output += "<p>" + property.location + "</p>";
-
-            output += "</div>";
-
-            output += "<strong>Tk " + property.price + "</strong>";
-
-            output += "</div>";
-        }
+        recentList.innerHTML = "<p>No properties added yet.</p>";
     }
 
-    recentList.innerHTML = output;
-}
+    else {
+
+        var shownProperties = 0;
 
 
+        for (var i = totalProperties - 1; i >= 0; i--) {
 
-function ownerRenderAppointments() {
+            if (shownProperties < 3) {
 
-    var appointmentBody = document.getElementById("owner-appointment-body");
+                var property = cards[i];
 
-    var output = "";
 
-    if (ownerAppointments.length == 0) {
+                var recentItem = document.createElement("div");
 
-        output = "<tr>";
-        output += "<td colspan='7'>No appointment requests available.</td>";
-        output += "</tr>";
+                recentItem.className = "owner-recent-item";
 
-    } else {
 
-        for (var i = 0; i < ownerAppointments.length; i++) {
+                var propertyInfo = document.createElement("div");
 
-            var appointment = ownerAppointments[i];
 
-            var propertyFound = false;
+                var propertyTitle = document.createElement("h3");
 
-            for (var j = 0; j < ownerProperties.length; j++) {
+                propertyTitle.textContent = property.dataset.title;
 
-                if (appointment.property == ownerProperties[j].title) {
-                    propertyFound = true;
-                }
-            }
 
-            if (propertyFound == true) {
+                var propertyLocation = document.createElement("p");
 
-                var status = appointment.status;
+                propertyLocation.textContent = property.dataset.location;
 
-                if (status == "") {
-                    status = "Pending";
-                }
 
-                output += "<tr>";
+                var propertyPrice = document.createElement("strong");
 
-                output += "<td>" + appointment.renterName + "</td>";
+                propertyPrice.textContent = "Tk " + property.dataset.price;
 
-                output += "<td>" + appointment.property + "</td>";
 
-                output += "<td>" + appointment.date + "</td>";
+                propertyInfo.appendChild(propertyTitle);
 
-                output += "<td>" + appointment.time + "</td>";
+                propertyInfo.appendChild(propertyLocation);
 
-                output += "<td>" + appointment.note + "</td>";
 
-                output += "<td>" + status + "</td>";
+                recentItem.appendChild(propertyInfo);
 
-                output += "<td>";
+                recentItem.appendChild(propertyPrice);
 
-                if (status == "Pending") {
 
-                    output += "<button onclick='ownerApproveAppointment(" + i + ")'>Approve</button>";
+                recentList.appendChild(recentItem);
 
-                    output += "<button onclick='ownerRejectAppointment(" + i + ")'>Reject</button>";
 
-                } else {
-
-                    output += "No action";
-
-                }
-
-                output += "</td>";
-
-                output += "</tr>";
+                shownProperties++;
             }
         }
     }
-
-    appointmentBody.innerHTML = output;
-}
-
-
-
-function ownerApproveAppointment(index) {
-
-    ownerAppointments[index].status = "Approved";
-
-    alert("Appointment approved successfully.");
-
-    ownerUpdateDashboard();
-}
-
-
-function ownerRejectAppointment(index) {
-
-    ownerAppointments[index].status = "Rejected";
-
-    alert("Appointment rejected.");
-
-    ownerUpdateDashboard();
 }
 
 
 function ownerUpdateDashboard() {
 
-    var pendingCount = 0;
+    var propertyList = document.getElementById("owner-property-list");
 
-    var approvedCount = 0;
+    var cards = propertyList.getElementsByClassName("owner-property-card");
 
-    var totalAppointments = 0;
 
-    for (var i = 0; i < ownerAppointments.length; i++) {
+    var totalProperties = cards.length;
 
-        var appointment = ownerAppointments[i];
 
-        var propertyFound = false;
+    document.getElementById("owner-total-properties").innerHTML = totalProperties;
 
-        for (var j = 0; j < ownerProperties.length; j++) {
-
-            if (appointment.property == ownerProperties[j].title) {
-                propertyFound = true;
-            }
-        }
-
-        if (propertyFound == true) {
-
-            totalAppointments++;
-
-            if (appointment.status == "" || appointment.status == "Pending") {
-
-                pendingCount++;
-            }
-
-            if (appointment.status == "Approved") {
-
-                approvedCount++;
-            }
-        }
-    }
-
-    document.getElementById("owner-total-properties").innerHTML = ownerProperties.length;
-
-    document.getElementById("owner-total-appointments").innerHTML = totalAppointments;
-
-    document.getElementById("owner-pending-appointments").innerHTML = pendingCount;
-
-    document.getElementById("owner-approved-appointments").innerHTML = approvedCount;
-
-    ownerRenderProperties();
 
     ownerRenderRecentProperties();
-
-    ownerRenderAppointments();
 }
+
+
+document.getElementById("owner-property-form").onreset = function () {
+
+    editingCard = null;
+
+    document.getElementById("owner-submit-btn").innerHTML = "Add Property";
+};
 
 
 ownerUpdateDashboard();

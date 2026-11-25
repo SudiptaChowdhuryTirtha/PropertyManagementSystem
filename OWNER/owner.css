@@ -1,4 +1,3 @@
-
 * {
     margin: 0;
     padding: 0;
@@ -7,37 +6,31 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #f5f6fa;
+    background-color: #f1f5fb;
     color: #333;
 }
 
-.owner-page {
-    display: flex;
-    min-height: 100vh;
+a {
+    text-decoration: none;
 }
-
-
-/* Sidebar */
 
 .owner-sidebar {
     width: 250px;
+    height: 100vh;
     background-color: #1e293b;
     color: white;
-    padding: 25px 15px;
-    display: flex;
-    flex-direction: column;
     position: fixed;
-    height: 100vh;
+    left: 0;
+    top: 0;
+    padding: 20px;
 }
 
 .owner-brand {
-    text-align: center;
-    padding-bottom: 30px;
-    border-bottom: 1px solid #475569;
+    margin-bottom: 40px;
 }
 
 .owner-brand h2 {
-    font-size: 25px;
+    font-size: 24px;
     margin-bottom: 8px;
 }
 
@@ -46,111 +39,72 @@ body {
     font-size: 14px;
 }
 
-
-/* Navigation */
-
 .owner-navigation {
-    margin-top: 30px;
+    display: block;
 }
 
 .owner-nav-link {
+    display: block;
     width: 100%;
     padding: 14px;
-    margin-bottom: 12px;
-    border: none;
-    border-radius: 8px;
+    margin-bottom: 10px;
     background-color: transparent;
-    color: #cbd5e1;
+    color: white;
+    border: none;
     text-align: left;
     font-size: 15px;
-    cursor: pointer;
-}
-
-.owner-nav-link span {
-    margin-right: 10px;
+    border-radius: 6px;
 }
 
 .owner-nav-link:hover {
     background-color: #334155;
-    color: white;
 }
 
 .owner-nav-link.owner-active {
     background-color: #2563eb;
-    color: white;
 }
 
-
-/* Logout */
-
 .owner-sidebar-bottom {
-    margin-top: auto;
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    width: 210px;
 }
 
 .owner-logout {
     display: block;
-    text-decoration: none;
+    padding: 14px;
     color: white;
-    background-color: #dc2626;
-    padding: 13px;
-    text-align: center;
-    border-radius: 8px;
+    background-color: #334155;
+    border-radius: 6px;
 }
-
-.owner-logout:hover {
-    background-color: #b91c1c;
-}
-
-
-/* Main Content */
 
 .owner-main {
-    width: calc(100% - 250px);
     margin-left: 250px;
     padding: 30px;
 }
 
-
-/* Navbar */
-
 .owner-navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     background-color: white;
-    padding: 22px 25px;
-    border-radius: 12px;
+    padding: 20px;
+    border-radius: 8px;
     margin-bottom: 30px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    min-height: 90px;
 }
 
 .owner-navbar h1 {
     font-size: 25px;
-    margin-bottom: 7px;
+    margin-bottom: 8px;
 }
 
 .owner-navbar p {
-    color: #64748b;
+    color: gray;
     font-size: 14px;
 }
 
 .owner-profile {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.owner-avatar {
-    width: 45px;
-    height: 45px;
-    background-color: #2563eb;
-    color: white;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 20px;
-    font-weight: bold;
+    float: right;
+    margin-top: -45px;
 }
 
 .owner-profile h3 {
@@ -158,8 +112,10 @@ body {
     margin-bottom: 5px;
 }
 
-
-/* Sections */
+.owner-profile p {
+    color: gray;
+    font-size: 13px;
+}
 
 .owner-section {
     display: none;
@@ -179,85 +135,73 @@ body {
 }
 
 .owner-section-heading p {
-    color: #64748b;
+    color: gray;
     font-size: 14px;
 }
 
-
-/* Dashboard Statistics */
-
 .owner-stats-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
     margin-bottom: 30px;
 }
 
 .owner-stat-card {
+    display: inline-block;
+    vertical-align: top;
+    width: 30%;
     background-color: white;
-    padding: 22px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    padding: 25px;
+    margin-right: 2%;
+    border-radius: 8px;
 }
 
 .owner-stat-icon {
-    width: 48px;
-    height: 48px;
-    background-color: #eff6ff;
-    border-radius: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 23px;
+    display: inline-block;
+    background-color: #dbeafe;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 25px;
+    vertical-align: middle;
+    margin-right: 10px;
 }
 
 .owner-stat-card p {
-    color: #64748b;
-    font-size: 13px;
+    color: gray;
     margin-bottom: 8px;
 }
 
 .owner-stat-card h2 {
     font-size: 25px;
-    color: #1e293b;
 }
-
-
-/* Content Card */
 
 .owner-content-card {
     background-color: white;
     padding: 25px;
-    border-radius: 12px;
+    border-radius: 8px;
     margin-bottom: 25px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
 }
 
 .owner-card-heading {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     margin-bottom: 20px;
+    overflow: hidden;
 }
 
 .owner-card-heading h2 {
     font-size: 19px;
+    display: inline-block;
 }
 
-
-/* Buttons */
+.owner-card-heading button {
+    float: right;
+}
 
 .owner-primary-btn {
     background-color: #2563eb;
     color: white;
     border: none;
-    padding: 12px 18px;
-    border-radius: 7px;
-    cursor: pointer;
+    padding: 12px 20px;
+    border-radius: 6px;
     font-size: 14px;
+    cursor: pointer;
 }
 
 .owner-primary-btn:hover {
@@ -266,86 +210,46 @@ body {
 
 .owner-secondary-btn {
     background-color: #e2e8f0;
-    color: #334155;
+    color: #333;
     border: none;
-    padding: 12px 18px;
-    border-radius: 7px;
+    padding: 12px 20px;
+    border-radius: 6px;
+    font-size: 14px;
     cursor: pointer;
-    font-size: 14px;
 }
-
-.owner-secondary-btn:hover {
-    background-color: #cbd5e1;
-}
-
-
-/* Recent Properties */
-
-.owner-recent-list {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.owner-recent-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 17px;
-    background-color: #f8fafc;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-}
-
-.owner-recent-item h3 {
-    font-size: 16px;
-    margin-bottom: 6px;
-}
-
-.owner-recent-item p {
-    color: #64748b;
-    font-size: 14px;
-}
-
-.owner-recent-item strong {
-    color: #2563eb;
-}
-
-
-/* Property Form */
 
 .owner-form-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 22px;
+    display: block;
 }
 
 .owner-form-group {
-    display: flex;
-    flex-direction: column;
+    display: inline-block;
+    vertical-align: top;
+    width: 48%;
+    margin-bottom: 20px;
 }
 
 .owner-form-group label {
+    display: block;
     font-size: 14px;
     font-weight: bold;
-    margin-bottom: 9px;
+    margin-bottom: 8px;
 }
 
 .owner-form-group input,
 .owner-form-group select,
 .owner-form-group textarea {
-    width: 100%;
     padding: 12px;
-    border: 1px solid #cbd5e1;
-    border-radius: 7px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
     font-size: 14px;
-    outline: none;
-    font-family: Arial, sans-serif;
+    width: 100%;
 }
 
 .owner-form-group input:focus,
 .owner-form-group select:focus,
 .owner-form-group textarea:focus {
+    outline: none;
     border-color: #2563eb;
 }
 
@@ -354,30 +258,59 @@ body {
 }
 
 .owner-full-width {
-    grid-column: 1 / 3;
+    display: block;
+    width: 98%;
 }
 
 .owner-form-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 12px;
+    text-align: right;
     margin-top: 25px;
 }
 
+.owner-form-actions button {
+    margin-left: 10px;
+}
 
-/* Property List */
+.owner-recent-list {
+    display: block;
+}
+
+.owner-recent-item {
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+
+.owner-recent-item h3 {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.owner-recent-item p {
+    color: gray;
+    font-size: 13px;
+}
+
+.owner-recent-item strong {
+    color: #2563eb;
+    float: right;
+}
 
 .owner-property-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 22px;
+    display: block;
 }
 
 .owner-property-card {
+    display: inline-block;
+    vertical-align: top;
+    width: 48%;
+    margin: 0 1% 20px 0;
     background-color: white;
-    border-radius: 12px;
+    border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    border: 1px solid #ddd;
 }
 
 .owner-property-card img {
@@ -396,195 +329,93 @@ body {
 }
 
 .owner-property-details p {
-    color: #64748b;
     font-size: 14px;
-    margin-bottom: 9px;
-    line-height: 1.5;
+    color: gray;
+    margin-bottom: 10px;
 }
 
-.owner-property-details .owner-property-price {
+.owner-property-price {
     color: #2563eb;
-    font-size: 17px;
+    font-size: 18px;
     font-weight: bold;
-    margin-top: 12px;
+    margin: 15px 0;
 }
 
 .owner-property-actions {
-    display: flex;
-    gap: 10px;
-    margin-top: 18px;
+    margin-top: 15px;
+}
+
+.owner-edit-btn,
+.owner-delete-btn {
+    width: 48%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 .owner-edit-btn {
-    background-color: #2563eb;
-    color: white;
-    border: none;
-    padding: 10px 18px;
-    border-radius: 6px;
-    cursor: pointer;
+    background-color: #dbeafe;
+    color: #1d4ed8;
 }
 
 .owner-delete-btn {
-    background-color: #dc2626;
-    color: white;
-    border: none;
-    padding: 10px 18px;
-    border-radius: 6px;
-    cursor: pointer;
+    background-color: #fee2e2;
+    color: #dc2626;
 }
-
-.owner-edit-btn:hover {
-    background-color: #1d4ed8;
-}
-
-.owner-delete-btn:hover {
-    background-color: #b91c1c;
-}
-
-
-/* Appointment Table */
-
-.owner-table-wrapper {
-    width: 100%;
-    overflow-x: auto;
-}
-
-.owner-appointment-table {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: left;
-}
-
-.owner-appointment-table th {
-    background-color: #eff6ff;
-    color: #1e293b;
-    padding: 15px;
-    font-size: 14px;
-}
-
-.owner-appointment-table td {
-    padding: 15px;
-    border-bottom: 1px solid #e2e8f0;
-    font-size: 14px;
-}
-
-.owner-appointment-table button {
-    padding: 8px 12px;
-    border: none;
-    border-radius: 5px;
-    color: white;
-    background-color: #16a34a;
-    cursor: pointer;
-    margin: 3px;
-}
-
-.owner-appointment-table button:hover {
-    background-color: #15803d;
-}
-
-
-/* Empty Message */
 
 .owner-empty-message {
-    color: #64748b;
     text-align: center;
+    color: gray;
     padding: 20px;
 }
 
-
-/* Responsive Design */
-
-@media screen and (max-width: 1000px) {
-
-    .owner-stats-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .owner-property-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-}
-
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 768px) {
 
     .owner-sidebar {
-        width: 190px;
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+
+    .owner-sidebar-bottom {
+        position: static;
+        width: 100%;
+        margin-top: 20px;
     }
 
     .owner-main {
-        width: calc(100% - 190px);
-        margin-left: 190px;
+        margin-left: 0;
         padding: 15px;
     }
 
-    .owner-navbar {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 20px;
+    .owner-profile {
+        float: none;
+        margin-top: 15px;
     }
 
-    .owner-form-grid {
-        grid-template-columns: 1fr;
+    .owner-stat-card {
+        display: block;
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    .owner-property-card {
+        display: block;
+        width: 100%;
+    }
+
+    .owner-form-group {
+        display: block;
+        width: 100%;
     }
 
     .owner-full-width {
-        grid-column: 1;
+        width: 100%;
     }
 
-    .owner-property-grid {
-        grid-template-columns: 1fr;
-    }
-
-}
-
-@media screen and (max-width: 500px) {
-
-    .owner-sidebar {
-        width: 65px;
-        padding: 15px 5px;
-    }
-
-    .owner-brand h2 {
-        font-size: 12px;
-    }
-
-    .owner-brand p {
-        font-size: 10px;
-    }
-
-    .owner-nav-link {
-        font-size: 0;
-        text-align: center;
-        padding: 13px 5px;
-    }
-
-    .owner-nav-link span {
-        font-size: 20px;
-        margin: 0;
-    }
-
-    .owner-logout {
-        font-size: 10px;
-        padding: 10px 2px;
-    }
-
-    .owner-main {
-        width: calc(100% - 65px);
-        margin-left: 65px;
-        padding: 12px;
-    }
-
-    .owner-stats-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .owner-navbar h1 {
-        font-size: 20px;
-    }
-
-    .owner-form-actions {
-        flex-direction: column;
+    .owner-navbar {
+        min-height: auto;
     }
 
 }

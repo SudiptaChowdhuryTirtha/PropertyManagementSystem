@@ -35,11 +35,6 @@
                 <span>🏠</span> My Properties
             </button>
 
-            <button class="owner-nav-link"
-                onclick="ownerShowSection('owner-appointments')">
-                <span>📅</span> Appointments
-            </button>
-
         </div>
 
         <div class="owner-sidebar-bottom">
@@ -56,7 +51,7 @@
 
             <div>
                 <h1>Owner Dashboard</h1>
-                <p>Manage your properties and appointments</p>
+                <p>Manage your properties</p>
             </div>
 
             <div class="owner-profile">
@@ -64,7 +59,6 @@
                     <h3 id="owner-user-name">Owner</h3>
                     <p>Property Owner</p>
                 </div>
-
             </div>
 
         </div>
@@ -80,33 +74,10 @@
 
                 <div class="owner-stat-card">
                     <div class="owner-stat-icon">🏠</div>
+
                     <div>
                         <p>Total Properties</p>
                         <h2 id="owner-total-properties">0</h2>
-                    </div>
-                </div>
-
-                <div class="owner-stat-card">
-                    <div class="owner-stat-icon">📅</div>
-                    <div>
-                        <p>Total Appointments</p>
-                        <h2 id="owner-total-appointments">0</h2>
-                    </div>
-                </div>
-
-                <div class="owner-stat-card">
-                    <div class="owner-stat-icon">⏳</div>
-                    <div>
-                        <p>Pending Requests</p>
-                        <h2 id="owner-pending-appointments">0</h2>
-                    </div>
-                </div>
-
-                <div class="owner-stat-card">
-                    <div class="owner-stat-icon">✓</div>
-                    <div>
-                        <p>Approved Requests</p>
-                        <h2 id="owner-approved-appointments">0</h2>
                     </div>
                 </div>
 
@@ -293,49 +264,6 @@
                 <p class="owner-empty-message">
                     No properties available. Add your first property.
                 </p>
-            </div>
-
-        </div>
-
-        <div id="owner-appointments" class="owner-section">
-
-            <div class="owner-section-heading">
-                <h2>Appointment Requests</h2>
-                <p>Manage appointment requests from renters.</p>
-            </div>
-
-            <div class="owner-content-card">
-
-                <div class="owner-table-wrapper">
-
-                    <table class="owner-appointment-table">
-
-                        <thead>
-                            <tr>
-                                <th>Renter</th>
-                                <th>Property</th>
-                                <th>Date</th>
-                                <th>Time</th>
-                                <th>Note</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-
-                        <tbody id="owner-appointment-body">
-
-                            <tr>
-                                <td colspan="7" class="owner-empty-message">
-                                    No appointment requests available.
-                                </td>
-                            </tr>
-
-                        </tbody>
-
-                    </table>
-
-                </div>
-
             </div>
 
         </div>
